@@ -1,11 +1,11 @@
 #![doc = include_str!("../README.md")]
 
-use serde::ser::SerializeMap;
 use serde::Serializer;
+use serde::ser::SerializeMap;
 use tracing::{Event, Subscriber};
 use tracing_serde::AsSerde;
 use tracing_subscriber::{
-    fmt::{format::Writer, FmtContext, FormatEvent, FormatFields, FormattedFields},
+    fmt::{FmtContext, FormatEvent, FormatFields, FormattedFields, format::Writer},
     registry::LookupSpan,
 };
 
@@ -93,13 +93,12 @@ where
                 }
 
                 let ext = span.extensions();
-                if let Some(data) = ext.get::<FormattedFields<N>>() {
-                    if let serde_json::Value::Object(fields) =
+                if let Some(data) = ext.get::<FormattedFields<N>>()
+                    && let serde_json::Value::Object(fields) =
                         serde_json::from_str::<serde_json::Value>(data).unwrap()
-                    {
-                        for field in fields {
-                            serializer_map.serialize_entry(&field.0, &field.1).unwrap();
-                        }
+                {
+                    for field in fields {
+                        serializer_map.serialize_entry(&field.0, &field.1).unwrap();
                     }
                 }
             }
@@ -121,7 +120,7 @@ mod tests {
     };
 
     use tracing::{dispatcher, info};
-    use tracing_subscriber::{fmt::format::JsonFields, Layer, Registry};
+    use tracing_subscriber::{Layer, Registry, fmt::format::JsonFields};
 
     use super::*;
 
