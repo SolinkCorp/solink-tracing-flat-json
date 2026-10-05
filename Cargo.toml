@@ -1,12 +1,12 @@
 [package]
 name = "solink-tracing-flat-json"
-version = "1.0.0"
+version = "1.0.2"
 edition = "2024"
 description = "Log flattened JSON in tracing."
 license = "MIT"
 
 [dependencies]
-chrono = "0.4.44"
+jiff = "0.2.37"
 serde = "1.0.228"
 serde_json = "1.0.149"
 tracing = "0.1.44"
