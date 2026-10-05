@@ -66,7 +66,7 @@ where
         let mut serializer_map = serializer.serialize_map(None).unwrap();
 
         if self.add_timestamp {
-            let timestamp = chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Nanos, true);
+            let timestamp = format!("{:.9}", jiff::Timestamp::now());
             serializer_map
                 .serialize_entry("timestamp", &timestamp)
                 .unwrap();
